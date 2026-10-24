@@ -331,14 +331,14 @@ def run(cfg, dry=False, again=False, rng=None, call=call_model):
         print(system); print("\n\n========== the room ==========\n"); print(prompt)
         print(f"\n[dry] {len(seeds)} seeds ({' '.join(f'{n}:{h}' for n, _, h in seeds)}) · prompt {len(prompt):,} chars", file=sys.stderr)
         return 0
-    if carried:
-        st.pop("tomorrow", None)                            # asked for, drawn in: spent
     t0 = time.time()
     text, usage, err = call(system, prompt)
     rec = {"ts": now.isoformat(timespec="seconds"), "day": day, "seeds": names, "draw": [h for _, _, h in seeds], "secs": round(time.time() - t0, 1)}
     if err:
         st["runs"].append({**rec, "came": False, "error": err[-160:]}); save_state(cfg, st)
-        log(cfg, f"{day}: no answer — {err[-160:]}"); return 1
+        log(cfg, f"{day}: no answer — {err[-160:]}"); return 1          # the wish is not spent on a door that did not open
+    if carried:
+        st.pop("tomorrow", None)                            # asked for, drawn in, answered: spent
     got = parse(text, int(cfg["dream_cap"]))
     rec.update(came=got["came"], chars=len(got["dream"]), table=bool(got["table"]), thinking=bool(got["thinking"]), tomorrow=got["tomorrow"],
                tokens=[(usage or {}).get("input_tokens"), (usage or {}).get("output_tokens")])

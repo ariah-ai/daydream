@@ -1,0 +1,31 @@
+# This repo's own claims, probed by the `claims` instrument (github.com/missing-piece-lab/instruments):
+#   python ../instruments/instruments/claims/claims.py --root . --docs .
+# State is observed: the README asserts nothing one of these can check. No probe runs the test suite.
+project: daydream
+claims:
+  - id: one-file
+    says: the tool is one file under 400 lines
+    probe: test -f daydream.py && test "$(wc -l < daydream.py)" -lt 400
+  - id: dry-run-writes-nothing
+    says: a dry run on the example assembles the room and writes nothing, not even the log
+    probe: rm -f examples/daydream.log examples/state.json && MODEL_KIND=fake python3 daydream.py --config examples/daydream.yml --dry-run >/dev/null 2>&1 && test ! -e examples/daydream.log && test ! -e examples/state.json
+    subject: [dry run, dry-run]
+    contradicts: {false: [writes nothing]}
+  - id: example-dream-is-unverifiable
+    says: the example dream carries kind dream and unverifiable true
+    probe: "grep -q '^kind: dream$' examples/dreams/2026-10-20.md && grep -q '^unverifiable: true$' examples/dreams/2026-10-20.md"
+  - id: scrub-gate-clean
+    says: the scrub gate finds no secret-shaped string and the repo is under the size cap; private words are checked only when a list is present
+    probe: bash tools/check.sh >/dev/null
+    subject: [scrub, gate]
+    contradicts: {false: [clean]}
+  - id: line-count
+    says: lines in the repo (the budget is 900)
+    probe: find . -path ./.git -prune -o -type f \( -name '*.py' -o -name '*.md' -o -name '*.yml' -o -name '*.sh' -o -name '*.toml' -o -name 'LICENSE' \) -print0 | xargs -0 cat | wc -l
+    kind: count
+  - id: mit
+    says: the license is MIT
+    probe: head -1 LICENSE | grep -q "MIT License"
+  - id: one-dependency
+    says: the only dependency is pyyaml
+    probe: python3 -c "import tomllib,sys; d=tomllib.load(open('pyproject.toml','rb'))['project']['dependencies']; sys.exit(0 if len(d)==1 and d[0].startswith('pyyaml') else 1)"

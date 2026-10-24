@@ -125,9 +125,11 @@ def test_nothing_came_and_the_guard():
 
 def test_error_is_logged_without_the_key():
     cfg, tmp = world()
+    D.save_state(cfg, {"runs": [], "tomorrow": {"name": "winter-close", "from": "2026-10-20"}})       # a wish from last time
     def broken(system, prompt): return None, {}, f"unreachable: refused"
     assert D.run(cfg, call=broken) == 1
     st = json.load(open(cfg["state"])); assert st["runs"][-1]["came"] is False and "refused" in st["runs"][-1]["error"]
+    assert st["tomorrow"] == {"name": "winter-close", "from": "2026-10-20"}, "a wish is not spent on a door that did not open"
     assert not os.path.exists(os.path.join(tmp, "dreams", D.datetime.now(cfg["_tz"]).date().isoformat() + ".md"))
 
 

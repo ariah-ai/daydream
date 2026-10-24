@@ -52,14 +52,14 @@ pip install pyyaml
 
 python tests/run.py                                                      # tests + the scrub gate, offline
 MODEL_KIND=fake python daydream.py --config examples/daydream.yml --dry-run   # print the room; write nothing
-MODEL_KIND=fake python daydream.py --config examples/daydream.yml             # a scripted dream lands in examples/dreams/
+cp -r examples /tmp/daydream-try && MODEL_KIND=fake python daydream.py --config /tmp/daydream-try/daydream.yml   # a scripted dream lands in the copy's dreams/
 ```
 
 With a real model: `MODEL_KIND=anthropic` (the Messages API) or `openai` (any `/chat/completions` door), `MODEL_NAME`,
 `MODEL_API_KEY`, optionally `MODEL_BASE_URL`. The key is read from the environment and never printed. Copy
 `examples/daydream.yml` next to your own identity file and store; every path in it is relative to the file. Run it from
 cron once a day at an hour the human is not usually at the keyboard; a second run the same day exits quietly
-(`--again` opens the room anyway). `--test` runs the offline tests.
+(`--again` opens the room anyway), and a door that did not answer also spends the day — cron does not retry, the log says why. `--test` runs the offline tests.
 
 **The scrub gate** (`tools/check.sh`) fails on secret-shaped strings, on the size cap, and on your own private words,
 which it reads from `~/.config/missing-piece/private-words`, outside the repo, so the list itself is never published.

@@ -8,7 +8,7 @@ claims:
     probe: test -f daydream.py && test "$(wc -l < daydream.py)" -lt 400
   - id: dry-run-writes-nothing
     says: a dry run on the example assembles the room and writes nothing, not even the log
-    probe: rm -f examples/daydream.log examples/state.json && MODEL_KIND=fake python3 daydream.py --config examples/daydream.yml --dry-run >/dev/null 2>&1 && test ! -e examples/daydream.log && test ! -e examples/state.json
+    probe: d=$(mktemp -d) && cp -r examples/. "$d" && MODEL_KIND=fake python3 daydream.py --config "$d/daydream.yml" --dry-run >/dev/null 2>&1 && test ! -e "$d/daydream.log" && test ! -e "$d/state.json"; r=$?; rm -rf "$d"; exit $r
     subject: [dry run, dry-run]
     contradicts: {false: [writes nothing]}
   - id: example-dream-is-unverifiable

@@ -25,9 +25,10 @@ API) | openai (any /chat/completions door) | fake (a scripted dream, for tests a
 MODEL_NAME, MODEL_API_KEY (read, never printed), MODEL_TIMEOUT (600 s).
 
 A memory = one markdown file in `store/` with YAML frontmatter (metadata.project names its scope; `[[links]]` in the body
-connect them; `private: true` keeps one out of every room). The store's index file (MEMORY.md) is never drawn.
+connect them; `private: true` — or `type|visibility|tier|scope: private` — keeps one out of every room). The store's index
+file (MEMORY.md) is never drawn.
 """
-import glob, json, os, random, re, sys, time, urllib.error, urllib.request
+import glob, json, os, random, re, subprocess, sys, time, urllib.error, urllib.request
 from collections import Counter
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
@@ -361,7 +362,7 @@ def main(argv):
         print(__doc__); return 0
     if "--test" in argv:
         here = os.path.dirname(os.path.abspath(__file__))
-        return os.system(f"{sys.executable} {os.path.join(here, 'tests', 'test_daydream.py')}") >> 8
+        return subprocess.call([sys.executable, os.path.join(here, 'tests', 'test_daydream.py')])
     def opt(k, d=None):
         return argv[argv.index(k) + 1] if k in argv and argv.index(k) + 1 < len(argv) else d
     global LOGGING

@@ -1,0 +1,13 @@
+[project]
+name = "daydream"
+version = "0.1.0"
+description = "Once a day, one model call with no task, no tools, no judge: the default mode network, for an agent."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Ariah" }]
+dependencies = ["pyyaml>=6.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--import-mode=importlib -q"

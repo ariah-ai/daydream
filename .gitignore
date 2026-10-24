@@ -1,0 +1,10 @@
+__pycache__/
+.pytest_cache/
+/dreams/
+/table/
+state.json
+daydream.log
+*.tmp
+private-words
+examples/state.json
+examples/daydream.log

@@ -1,0 +1,16 @@
+# daydream.yml — every path is relative to this file. Copy it next to your own identity file and store.
+identity: identity.md          # who the agent is, in its own words (the system prompt; the only place the register is set)
+store: store                   # one markdown memory per file, YAML frontmatter, [[links]] in the body
+dreams: dreams                 # where a dream lands: <date>.md, kind: dream, unverifiable: true
+table:
+  line: table/LINE.md          # the line the agent leaves for the human; replaced by a `## for the table`
+  thought: table/THOUGHT.md    # the thought on the page; replaced by a `## thinking`
+state: state.json              # the runs (names, lengths, timings) and the one memory asked for next time
+log: daydream.log              # a read happened; never what it said
+tz: America/Chicago            # the room opens on the human's clock
+agent: Fennel                  # the name the system prompt opens with
+human: Marguerite              # who can read what is written
+seeds: 5                       # memories in the room
+linked: 2                      # of the seeds, up to this many follow the first random one's own [[links]]
+hub_max: 8                     # a memory linked from more than this many others is never drawn by link
+skip_projects: [accounts]      # scopes that never enter the room (money, anything fenced)

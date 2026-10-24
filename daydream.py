@@ -39,7 +39,7 @@ DEFAULTS = {"identity": "identity.md", "store": "store", "dreams": "dreams", "ta
             "seeds": 5, "linked": 2, "hub_max": 8, "skip_projects": [], "identity_cap": 6000, "seed_cap": 3000, "dream_cap": 12000}
 MARK = "<!-- daydream"
 LINK = re.compile(r"\[\[([^\]|]+)")
-PRIVATE = re.compile(r"^\s*(private|porch):\s*true\s*$|^\s*(type|visibility|tier|scope):\s*private\s*$", re.M | re.I)
+PRIVATE = re.compile(r"^\s*private:\s*true\s*$|^\s*(type|visibility|tier|scope):\s*private\s*$", re.M | re.I)
 HEADS = {"table": re.compile(r"^#{2,3}\s*for the table\s*$", re.I | re.M), "thinking": re.compile(r"^#{2,3}\s*thinking\s*$", re.I | re.M),
          "tomorrow": re.compile(r"^#{2,3}\s*tomorrow\s*$", re.I | re.M)}
 NOTHING = re.compile(r"^\W*(nothing( came| today| tonight)?|nothing came to me|no)\W*$", re.I | re.S)

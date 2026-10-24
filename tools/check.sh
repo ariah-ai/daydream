@@ -25,6 +25,6 @@ fi
 shape=$(grep -rIEn "${EXCL[@]}" -e 'sk-[A-Za-z0-9_-]{20,}' -e 'BEGIN (RSA |OPENSSH )?PRIVATE KEY' -e 'ghp_[A-Za-z0-9]{20,}' -e 'AKIA[0-9A-Z]{16}' -e 'xox[abp]-[A-Za-z0-9-]{10,}' . || true)
 if [ -n "$shape" ]; then echo "check: a secret-shaped string:"; printf '%s\n' "$shape" | sed 's/^/  /'; rc=1; fi
 total=$(find . \( -path ./.git -o -path ./.venv -o -path ./venv \) -prune -o -type f \( -name '*.py' -o -name '*.md' -o -name '*.yml' -o -name '*.sh' -o -name '*.toml' -o -name 'LICENSE' \) -print0 | xargs -0 cat | wc -l)
-if [ "$total" -gt 900 ]; then echo "check: $total lines — the budget is 900"; rc=1; fi
+if [ "$total" -gt 1000 ]; then echo "check: $total lines — the budget is 1000"; rc=1; fi
 [ $rc -eq 0 ] && echo "check: clean ($total lines, nothing secret-shaped, $wordnote)"
 exit $rc

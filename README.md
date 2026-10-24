@@ -52,7 +52,7 @@ pip install pyyaml
 
 python tests/run.py                                                      # tests + the scrub gate, offline
 MODEL_KIND=fake python daydream.py --config examples/daydream.yml --dry-run   # print the room; write nothing
-cp -r examples /tmp/daydream-try && MODEL_KIND=fake python daydream.py --config /tmp/daydream-try/daydream.yml   # a scripted dream lands in the copy's dreams/
+rm -rf /tmp/daydream-try && cp -r examples /tmp/daydream-try && MODEL_KIND=fake python daydream.py --config /tmp/daydream-try/daydream.yml   # a scripted dream lands in the copy's dreams/
 ```
 
 With a real model: `MODEL_KIND=anthropic` (the Messages API) or `openai` (any `/chat/completions` door), `MODEL_NAME`,

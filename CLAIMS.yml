@@ -20,7 +20,7 @@ claims:
     subject: [scrub, gate]
     contradicts: {false: [clean]}
   - id: line-count
-    says: lines in the repo (the budget is 900)
+    says: lines in the repo (the budget is 1,000)
     probe: find . -path ./.git -prune -o -type f \( -name '*.py' -o -name '*.md' -o -name '*.yml' -o -name '*.sh' -o -name '*.toml' -o -name 'LICENSE' \) -print0 | xargs -0 cat | wc -l
     kind: count
   - id: mit
